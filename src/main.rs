@@ -42,7 +42,7 @@ fn main_screen() {
 }
 
 fn hard_coded_brute_force() {
-    let an_array: [i32; 5] = [1, -1, 2, 4, 1];
+    let an_array = vec![1, -1, 2, 4, 1];
     let highest_sum = brute_force(&an_array);
     println!("Highest sum using brute force: {}.", highest_sum);
 }
@@ -78,7 +78,7 @@ fn continue_program() {
     };
 }
 
-fn brute_force(array: &[i32]) -> i32 {
+fn brute_force(array: &Vec<i32>) -> i32 {
     let number_of_elements = array.len();
     let mut max_sum = array[0];
     // from zero to the last element
