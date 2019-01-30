@@ -1,4 +1,5 @@
 use std::io;
+use std::cmp;
 
 fn main() {
     main_screen();
@@ -43,11 +44,13 @@ fn main_screen() {
 fn hard_coded_brute_force() {
     let an_array: [i32; 5] = [1, -1, 2, 4, 1];
     let highest_sum = brute_force(&an_array);
-    println!("Highest sum in our array: {}", highest_sum);
+    println!("Highest sum using brute force: {}.", highest_sum);
 }
 
 fn hard_coded_kadane() {
-    println!("Doo da doo. Kadane's hard coded");
+    let list = vec![1, -1, 2, 4, 1];
+    let largest_sum = kadane(&list);
+    println!("Largest sum using kadane: {}.", largest_sum);
 }
 
 fn manual_input_array() {
@@ -94,4 +97,18 @@ fn brute_force(array: &[i32]) -> i32 {
         }
     }
     return max_sum;
+}
+
+// Please read more into Kadane's algorithm, but basically, it allows use
+// to pass through the list once and keeps track of the "running maximum".
+fn kadane(nums: &Vec<i32>) -> i32 {
+    let (mut current_max, mut largest_subset) = (nums[0], nums[0]);
+    for x in &nums[1..] {
+        // keeps track of the largest subset up to that run of x, note that
+        // x here must be dereferenced because nums is passed around as a pointer
+        largest_subset = cmp::max(*x, largest_subset + x);
+        // maximum value is always kept up to date as x advances through the list
+        current_max = cmp::max(current_max, largest_subset);
+    }
+    return current_max;
 }
