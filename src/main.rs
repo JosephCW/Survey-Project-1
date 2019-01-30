@@ -6,32 +6,33 @@ fn main() {
 
 // This is so we can get it later and loop as many times as we want.
 fn main_screen() {
-    println!("Enter 0 to run the hardcoded tests against brute force algorithm");
-    println!("Enter 1 to run the hardcoded tests against kadane's algorithm");
-    println!("Enter 2 to enter your own array of numbers to run against both");
-    println!("Enter -1 to exit");
+    println!("Enter 0 to run the hardcoded tests against brute force algorithm.");
+    println!("Enter 1 to run the hardcoded tests against kadane's algorithm.");
+    println!("Enter 2 to enter your own array of numbers to run against both.");
+    println!("Enter any other value to exit.");
     let mut chosen_option = String::new();
     io::stdin()
         .read_line(&mut chosen_option)
         .expect("Failed to read from std::in.");
     match chosen_option.trim().parse::<i32>() {
         Ok(i) => {
-            println!("Value of i chosen: {}", i);
-            if i == 0 {
-               hard_coded_brute_force();
-               continue_program();
-            } else if i == 1 {
-                hard_coded_kadane();
-                continue_program();
-            } else if i == 2 {
-                manual_input_array();
-                continue_program();
-            } else if i == -1 {
-                return;
-            } else {
-                main_screen();
+            println!("Value of i chosen: {}.", i);
+            match i {
+                0 => {
+                    hard_coded_brute_force();
+                },
+                1 => {
+                    hard_coded_kadane();
+                }
+                2 => {
+                    hard_coded_brute_force();
+                    hard_coded_kadane();
+                    manual_input_array();
+                }
+                 _ => return,
             }
-        },
+            continue_program();
+        }
         Err(_) => {
             println!("Encountered an error while parsing what you read. Restarting the program.");
             main_screen();
@@ -66,7 +67,7 @@ fn continue_program() {
                 return;
             }
             main_screen();
-        },
+        }
         Err(_) => {
             println!("Encountered an error while parsing what you read. Restarting the program.");
             main_screen();
@@ -78,13 +79,13 @@ fn brute_force(array: &[i32]) -> i32 {
     let number_of_elements = array.len();
     let mut max_sum = array[0];
     // from zero to the last element
-    for i in 0 ..= number_of_elements - 1{
+    for i in 0..=number_of_elements - 1 {
         // from current to last element
-        for j in i ..= number_of_elements - 1 {
+        for j in i..=number_of_elements - 1 {
             // sum up the values between i and j
             // set max sum if it is largest.
             let mut total = 0;
-            for k in i ..= j {
+            for k in i..=j {
                 total += array[k];
             }
             if max_sum < total {
@@ -94,4 +95,3 @@ fn brute_force(array: &[i32]) -> i32 {
     }
     return max_sum;
 }
-
