@@ -7,10 +7,56 @@ fn main() {
     main_screen();
 }
 
+// This is so we can get it later and loop as many times as we want.
+fn main_screen() {
+    println!("Enter 0 to run the hardcoded tests against brute force algorithm.");
+    println!("Enter 1 to run the hardcoded tests against kadane's algorithm.");
+    println!("Enter 2 to benchmark both.");
+    println!("Enter any other value or press enter to exit.");
+    let mut chosen_option = String::new();
+    io::stdin()
+        .read_line(&mut chosen_option)
+        .expect("Failed to read from std::in.");
+    // println!("Value of i chosen: {}.", chosen_option.trim());
+    match chosen_option.trim() {
+        "0" => hard_coded_brute_force(),
+        "1" => hard_coded_kadane(),
+        "2" => benchmark_functions(),
+        _  => return,
+    };
+    continue_program();
+}
+
 fn benchmark_functions() {
+    println!("Enter the number of items to benchmark against, or enter -1 for defaults");
+    println!("Defaults are [5, 10, 100, 250, 500, 1000, 2500, 5000]");
+    let mut benchmark_count = String::new();
+    io::stdin()
+        .read_line(&mut benchmark_count)
+        .expect("Failed to read from std::in.");
+    println!("Size of array to benchmark against: {}", benchmark_count);
+    let mut benchmarks: Vec<i32> = Vec::new(); 
+    match benchmark_count.trim() {
+        "-1" => {
+            benchmarks.push(5); 
+            benchmarks.push(10);
+            benchmarks.push(100);
+            benchmarks.push(250);
+            benchmarks.push(500);
+            benchmarks.push(1000);
+            benchmarks.push(2500);
+            benchmarks.push(5000);
+        },
+        _ => {
+            // Have to call a string.pop() to remove the newline character
+            benchmark_count.pop();
+            // we then parse it and conver it to an i32
+            benchmarks.push(benchmark_count.parse().unwrap());
+        }, 
+    };
+
     println!("\nLargest subarray sum found by both algorithms:");
     println!("n\tForced\tKadane");
-    let benchmarks: [i32; 8]= [5, 10, 100, 250, 500, 1000, 2500, 5000];
     let mut forced_benchmarks: Vec<std::time::Duration> = Vec::new();
     let mut kadane_benchmarks: Vec<std::time::Duration> = Vec::new();
     let mut random = rand::thread_rng();
@@ -37,26 +83,6 @@ fn benchmark_functions() {
                  kadane_benchmarks[i].as_secs() as f64
                  + kadane_benchmarks[i].subsec_nanos() as f64 * 1e-9);
     }
-}
-
-// This is so we can get it later and loop as many times as we want.
-fn main_screen() {
-    println!("Enter 0 to run the hardcoded tests against brute force algorithm.");
-    println!("Enter 1 to run the hardcoded tests against kadane's algorithm.");
-    println!("Enter 2 to benchmark both.");
-    println!("Enter any other value or press enter to exit.");
-    let mut chosen_option = String::new();
-    io::stdin()
-        .read_line(&mut chosen_option)
-        .expect("Failed to read from std::in.");
-    // println!("Value of i chosen: {}.", chosen_option.trim());
-    match chosen_option.trim() {
-        "0" => hard_coded_brute_force(),
-        "1" => hard_coded_kadane(),
-        "2" => benchmark_functions(),
-        _  => return,
-    };
-    continue_program();
 }
 
 fn hard_coded_brute_force() {
