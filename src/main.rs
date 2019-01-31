@@ -73,7 +73,7 @@ fn hard_coded_kadane() {
 
 fn continue_program() {
     let mut read_continue = String::new();
-    println!("Would you like to continue? (y/N)");
+    println!("Would you like to continue? (y/n)");
     io::stdin()
         .read_line(&mut read_continue)
         .expect("Failed to read from std::in.");
