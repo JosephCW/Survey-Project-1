@@ -1,13 +1,30 @@
 # Project 1: Maximum Subarray
 
-## Install instructions for rust
+## Installing Rust on Linux / MacOS
 
-Download the windows installer [here](https://static.rust-lang.org/dist/rust-1.0.0-beta-x86_64-pc-windows-gnu.msi). 
+Just run this:
+```
+curl https://sh.rustup.rs -sSf | sh
+```
+
+## Installing Rust on Windows
+
+Download the windows installer [here](https://static.rust-lang.org/dist/rust-1.0.0-beta-x86_64-pc-windows-gnu.msi).
+
+## Building and Running the Project
 Once rust (with Cargo) is installed navigate to the base directory of the project.
-Compile the program with 'cargo build --release'
-This will put the compiled executable in the ./target/debug/ directory.
-You can execute this program with the command .\target\debug\project-1-rusty-bois.exe
+Compile the program with:
+```
+cargo build --release
+```
+This will put the compiled executable in the ./target/release/ directory.
+You can execute this program with the command .\target\release\project-1-rusty-bois.exe (on Windows) or simply type:
+```
+cargo run --release
+```
+Be sure to add the `--release` option, otherwise cargo will build and run the debug version, which is very slow.
 Following the instructions from the running program to get the different desired outputs.
+
 ## 44-349: Survey of Algorithms
 
 ### The Problem
@@ -63,9 +80,9 @@ Your code submission must contain a way to run your code and verify it works (pe
 
 When you have verified that your code works you must write code to time the execution of your algorithms.
 Remember: when timing you should average the runtime over many iterations on the _same array size_.
-You should be able to generate and report timings of your code for a variety of values for `n` (array size). 
+You should be able to generate and report timings of your code for a variety of values for `n` (array size).
 
-How you generate your arrays is up to you; remember that the arrays can contain both negative and positive values.  You may also want to use different arrays for the same array size; you should decide how the parameters of your timing.  
+How you generate your arrays is up to you; remember that the arrays can contain both negative and positive values.  You may also want to use different arrays for the same array size; you should decide how the parameters of your timing.
 
 It is unacceptable to ask the grader to modify/recompile your code to generate timings for various array sizes; you must either read in this parameter from a file, the keyboard, or the command line (runtime parameter) so it is easy to generate timings.
 Alternately you may want to decide all values of `n` you will want to test, and output all timings in a table.
