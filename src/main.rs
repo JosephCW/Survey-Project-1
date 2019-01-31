@@ -1,44 +1,62 @@
 use std::io;
 use std::cmp;
+use rand::Rng;
+use std::time::SystemTime;
 
 fn main() {
     main_screen();
+}
+
+fn benchmark_functions() {
+    println!("\nLargest subarray sum found by both algorithms:");
+    println!("n\tForced\tKadane");
+    let benchmarks: [i32; 6]= [5, 10, 100, 250, 500, 1000];
+    let mut forced_benchmarks: Vec<std::time::Duration> = Vec::new();
+    let mut kadane_benchmarks: Vec<std::time::Duration> = Vec::new();
+    let mut random = rand::thread_rng();
+    for bench in &benchmarks {
+        let mut list: Vec<i32> = Vec::new();
+        for _ in 0..*bench{
+            list.push(random.gen_range(-5, 5));
+        }
+        let sys_time = SystemTime::now();
+        let forced_sum = brute_force(&list);
+        forced_benchmarks.push(sys_time.elapsed().unwrap());
+        let sys_time = SystemTime::now();
+        let kadane_sum = kadane(&list);
+        kadane_benchmarks.push(sys_time.elapsed().unwrap());
+        println!("{}:  \t{}\t{}",
+                 bench, forced_sum, kadane_sum);
+    }
+    println!("\nTiming both algorithms (in secs):");
+    println!("n\tForced\t\tKadane");
+    for (i, bench) in benchmarks.iter().enumerate() {
+        println!("{}:\t{:.9}\t{:.9}", bench,
+                 forced_benchmarks[i].as_secs() as f64
+                 + forced_benchmarks[i].subsec_nanos() as f64 * 1e-9,
+                 kadane_benchmarks[i].as_secs() as f64
+                 + kadane_benchmarks[i].subsec_nanos() as f64 * 1e-9);
+    }
 }
 
 // This is so we can get it later and loop as many times as we want.
 fn main_screen() {
     println!("Enter 0 to run the hardcoded tests against brute force algorithm.");
     println!("Enter 1 to run the hardcoded tests against kadane's algorithm.");
-    println!("Enter 2 to enter your own array of numbers to run against both.");
-    println!("Enter any other value to exit.");
+    println!("Enter 2 to benchmark both.");
+    println!("Enter any other value or press enter to exit.");
     let mut chosen_option = String::new();
     io::stdin()
         .read_line(&mut chosen_option)
         .expect("Failed to read from std::in.");
-    match chosen_option.trim().parse::<i32>() {
-        Ok(i) => {
-            println!("Value of i chosen: {}.", i);
-            match i {
-                0 => {
-                    hard_coded_brute_force();
-                },
-                1 => {
-                    hard_coded_kadane();
-                }
-                2 => {
-                    hard_coded_brute_force();
-                    hard_coded_kadane();
-                    manual_input_array();
-                }
-                 _ => return,
-            }
-            continue_program();
-        }
-        Err(_) => {
-            println!("Encountered an error while parsing what you read. Restarting the program.");
-            main_screen();
-        }
+    // println!("Value of i chosen: {}.", chosen_option.trim());
+    match chosen_option.trim() {
+        "0" => hard_coded_brute_force(),
+        "1" => hard_coded_kadane(),
+        "2" => benchmark_functions(),
+        _  => return,
     };
+    continue_program();
 }
 
 fn hard_coded_brute_force() {
@@ -53,28 +71,16 @@ fn hard_coded_kadane() {
     println!("Largest sum using kadane: {}.", largest_sum);
 }
 
-fn manual_input_array() {
-    println!("Doo da doo. Manual array input");
-}
-
 fn continue_program() {
     let mut read_continue = String::new();
-    println!("Would you like to continue? 1 for yes, 0 for no.");
+    println!("Would you like to continue? (y/N)");
     io::stdin()
         .read_line(&mut read_continue)
         .expect("Failed to read from std::in.");
 
-    match read_continue.trim().parse::<i32>() {
-        Ok(i) => {
-            if i == 0 {
-                return;
-            }
-            main_screen();
-        }
-        Err(_) => {
-            println!("Encountered an error while parsing what you read. Restarting the program.");
-            main_screen();
-        }
+    match read_continue.trim() {
+        "y" | "Y" => main_screen(),
+        _ => return
     };
 }
 
