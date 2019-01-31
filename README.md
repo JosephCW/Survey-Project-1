@@ -1,5 +1,13 @@
 # Project 1: Maximum Subarray
 
+## Install instructions for rust
+
+Download the windows installer [here](https://static.rust-lang.org/dist/rust-1.0.0-beta-x86_64-pc-windows-gnu.msi). 
+Once rust (with Cargo) is installed navigate to the base directory of the project.
+Compile the program with 'cargo build --release'
+This will put the compiled executable in the ./target/debug/ directory.
+You can execute this program with the command .\target\debug\project-1-rusty-bois.exe
+Following the instructions from the running program to get the different desired outputs.
 ## 44-349: Survey of Algorithms
 
 ### The Problem
