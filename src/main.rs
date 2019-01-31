@@ -10,7 +10,7 @@ fn main() {
 fn benchmark_functions() {
     println!("\nLargest subarray sum found by both algorithms:");
     println!("n\tForced\tKadane");
-    let benchmarks: [i32; 6]= [5, 10, 100, 250, 500, 1000];
+    let benchmarks: [i32; 8]= [5, 10, 100, 250, 500, 1000, 2500, 5000];
     let mut forced_benchmarks: Vec<std::time::Duration> = Vec::new();
     let mut kadane_benchmarks: Vec<std::time::Duration> = Vec::new();
     let mut random = rand::thread_rng();
