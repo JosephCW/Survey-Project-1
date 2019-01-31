@@ -28,7 +28,7 @@ fn main_screen() {
 }
 
 fn benchmark_functions() {
-    println!("Enter the number of items to benchmark against, or enter -1 for defaults");
+    println!("Enter the length of array to benchmark against, or press return for defaults");
     println!("Defaults are [5, 10, 100, 250, 500, 1000, 2500, 5000]");
     let mut benchmark_count = String::new();
     io::stdin()
