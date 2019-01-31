@@ -34,26 +34,18 @@ fn benchmark_functions() {
     io::stdin()
         .read_line(&mut benchmark_count)
         .expect("Failed to read from std::in.");
-    println!("Size of array to benchmark against: {}", benchmark_count);
-    let mut benchmarks: Vec<i32> = Vec::new(); 
-    match benchmark_count.trim() {
-        "-1" => {
-            benchmarks.push(5); 
-            benchmarks.push(10);
-            benchmarks.push(100);
-            benchmarks.push(250);
-            benchmarks.push(500);
-            benchmarks.push(1000);
-            benchmarks.push(2500);
-            benchmarks.push(5000);
-        },
-        _ => {
-            // Have to call a string.pop() to remove the newline character
-            benchmark_count.pop();
-            // we then parse it and conver it to an i32
+    // remove the \n from the string
+    benchmark_count.pop();
+    // If the length of the string is zero, then it was just a newline character.
+    // else, push that to our vector.
+    let default_benchmarks = vec![5, 10, 100, 250, 500, 1000, 2500, 5000];
+    let mut benchmarks: Vec<i32> = Vec::new();
+    if benchmark_count.len() == 0 {
+        benchmarks.extend(default_benchmarks);
+    } else {
             benchmarks.push(benchmark_count.parse().unwrap());
-        }, 
-    };
+            println!("Size of array to benchmark against: {}", benchmark_count);
+    }
 
     println!("\nLargest subarray sum found by both algorithms:");
     println!("n\tForced\tKadane");
