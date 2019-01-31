@@ -43,6 +43,8 @@ fn benchmark_functions() {
     let mut benchmarks: Vec<i32> = Vec::new();
     let mut user_array: Vec<i32> = Vec::new();
     if benchmark_count == "0" {
+        // run default benchmark with custom array
+        println!("Enter your custom array to test against with values separated by spaces");
         let mut user_provided_array = String::new();
         io::stdin()
             .read_line(&mut user_provided_array)
@@ -52,9 +54,10 @@ fn benchmark_functions() {
         }
         benchmarks.extend(default_benchmarks);
     } else if benchmark_count.len() == 0 {
+        // run default benchmarks with random array
+        println!("Preparing to run with default benchmark numbers");
         benchmarks.extend(default_benchmarks);
     } else {
-        println!("Enter your custom array seperated by spaces, or press return to randomly generate values");
         benchmarks.push(benchmark_count.parse().unwrap());
         println!("Size of array to benchmark against: {}", benchmark_count);
     }
@@ -67,7 +70,6 @@ fn benchmark_functions() {
     for bench in &benchmarks {
         let mut list: Vec<i32> = Vec::new();
         // If the user did not provide an array
-        //
         if calculate_length(&user_array) == 0 {
             for _ in 0..*bench {
                 list.push(random.gen_range(-5, 5));
