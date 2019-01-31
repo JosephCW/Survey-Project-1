@@ -28,7 +28,7 @@ fn main_screen() {
 }
 
 fn benchmark_functions() {
-    println!("Enter the length of array to benchmark against, or press return for defaults");
+    println!("Enter 0 to enter a custom array.\nEnter any number to test an array of that length, or press return for defaults.");
     println!("Defaults are [5, 10, 100, 250, 500, 1000, 2500, 5000]");
     let mut benchmark_count = String::new();
     io::stdin()
@@ -36,15 +36,27 @@ fn benchmark_functions() {
         .expect("Failed to read from std::in.");
     // remove the \n from the string
     benchmark_count.pop();
-    // If the length of the string is zero, then it was just a newline character.
+    // If the input was 0, then allow the user to input their own array.
+    // if the length of the string is zero, then it was just a newline character.
     // else, push that to our vector.
     let default_benchmarks = vec![5, 10, 100, 250, 500, 1000, 2500, 5000];
     let mut benchmarks: Vec<i32> = Vec::new();
-    if benchmark_count.len() == 0 {
+    let mut user_array: Vec<i32> = Vec::new();
+    if benchmark_count == "0" {
+        let mut user_provided_array = String::new();
+        io::stdin()
+            .read_line(&mut user_provided_array)
+            .expect("Failed to read user array from std::in.");
+        for value in user_provided_array.split_whitespace() {
+            user_array.push(value.parse::<i32>().expect("Failed to parse user array"));
+        }
+        benchmarks.extend(default_benchmarks);
+    } else if benchmark_count.len() == 0 {
         benchmarks.extend(default_benchmarks);
     } else {
-            benchmarks.push(benchmark_count.parse().unwrap());
-            println!("Size of array to benchmark against: {}", benchmark_count);
+        println!("Enter your custom array seperated by spaces, or press return to randomly generate values");
+        benchmarks.push(benchmark_count.parse().unwrap());
+        println!("Size of array to benchmark against: {}", benchmark_count);
     }
 
     println!("\nLargest subarray sum found by both algorithms:");
@@ -54,9 +66,17 @@ fn benchmark_functions() {
     let mut random = rand::thread_rng();
     for bench in &benchmarks {
         let mut list: Vec<i32> = Vec::new();
-        for _ in 0..*bench{
-            list.push(random.gen_range(-5, 5));
+        // If the user did not provide an array
+        //
+        if calculate_length(&user_array) == 0 {
+            for _ in 0..*bench {
+                list.push(random.gen_range(-5, 5));
+            }
+        } else {
+            // If the user did provide an array add that to our list.
+            list.extend(&user_array);
         }
+
         let sys_time = SystemTime::now();
         let forced_sum = brute_force(&list);
         forced_benchmarks.push(sys_time.elapsed().unwrap());
@@ -76,6 +96,11 @@ fn benchmark_functions() {
                  + kadane_benchmarks[i].subsec_nanos() as f64 * 1e-9);
     }
 }
+
+fn calculate_length(s: &Vec<i32>) -> usize {
+    s.len()
+}
+
 
 fn hard_coded_brute_force() {
     let an_array = vec![1, -1, 2, 4, 1];
