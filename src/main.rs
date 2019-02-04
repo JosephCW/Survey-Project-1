@@ -52,7 +52,7 @@ fn benchmark_functions() {
         for value in user_provided_array.split_whitespace() {
             user_array.push(value.parse::<i32>().expect("Failed to parse user array"));
         }
-        benchmarks.extend(default_benchmarks);
+        benchmarks.push(user_array.len() as i32);
     } else if benchmark_count.len() == 0 {
         // run default benchmarks with random array
         println!("Preparing to run with default benchmark numbers");
