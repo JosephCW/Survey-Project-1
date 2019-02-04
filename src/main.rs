@@ -29,7 +29,7 @@ fn main_screen() {
 
 fn benchmark_functions() {
     println!("Enter 0 to enter a custom array.\nEnter any number to test an array of that length, or press return for defaults.");
-    println!("Defaults are [5, 10, 100, 250, 500, 1000, 2500, 5000]");
+    println!("Defaults are [1, 5, 10, 100, 250, 500, 1000, 2500, 5000]");
     let mut benchmark_count = String::new();
     io::stdin()
         .read_line(&mut benchmark_count)
@@ -39,7 +39,7 @@ fn benchmark_functions() {
     // If the input was 0, then allow the user to input their own array.
     // if the length of the string is zero, then it was just a newline character.
     // else, push that to our vector.
-    let default_benchmarks = vec![5, 10, 100, 250, 500, 1000, 2500, 5000];
+    let default_benchmarks = vec![1, 5, 10, 100, 250, 500, 1000, 2500, 5000];
     let mut benchmarks: Vec<i32> = Vec::new();
     let mut user_array: Vec<i32> = Vec::new();
     if benchmark_count == "0" {
@@ -72,7 +72,7 @@ fn benchmark_functions() {
         // If the user did not provide an array
         if calculate_length(&user_array) == 0 {
             for _ in 0..*bench {
-                list.push(random.gen_range(-5, 5));
+                list.push(random.gen_range(-5, 6));
             }
         } else {
             // If the user did provide an array add that to our list.
