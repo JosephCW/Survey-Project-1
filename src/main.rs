@@ -13,11 +13,11 @@ fn main_screen() {
     println!("Enter 1 to run the hardcoded tests against kadane's algorithm.");
     println!("Enter 2 to benchmark both.");
     println!("Enter any other value or press enter to exit.");
+    // Based on user input choose which route to go.
     let mut chosen_option = String::new();
     io::stdin()
         .read_line(&mut chosen_option)
         .expect("Failed to read from std::in.");
-    // println!("Value of i chosen: {}.", chosen_option.trim());
     match chosen_option.trim() {
         "0" => hard_coded_brute_force(),
         "1" => hard_coded_kadane(),
@@ -34,7 +34,7 @@ fn benchmark_functions() {
     io::stdin()
         .read_line(&mut benchmark_count)
         .expect("Failed to read from std::in.");
-    // remove the \n from the string
+    // Remove the newline character from the string before converting to i32
     benchmark_count.pop();
     // If the input was 0, then allow the user to input their own array.
     // if the length of the string is zero, then it was just a newline character.
@@ -67,6 +67,7 @@ fn benchmark_functions() {
     let mut forced_benchmarks: Vec<std::time::Duration> = Vec::new();
     let mut kadane_benchmarks: Vec<std::time::Duration> = Vec::new();
     let mut random = rand::thread_rng();
+    // Run all of the benchmarks
     for bench in &benchmarks {
         let mut list: Vec<i32> = Vec::new();
         // If the user did not provide an array
@@ -99,23 +100,26 @@ fn benchmark_functions() {
     }
 }
 
+// Get the length of a vector via pointer
 fn calculate_length(s: &Vec<i32>) -> usize {
     s.len()
 }
 
-
+// Run the hard coded version of brute force
 fn hard_coded_brute_force() {
     let an_array = vec![1, -1, 2, 4, 1];
     let highest_sum = brute_force(&an_array);
     println!("Highest sum using brute force: {}.", highest_sum);
 }
 
+// Run the hard coded version of kadane's algorithm
 fn hard_coded_kadane() {
     let list = vec![1, -1, 2, 4, 1];
     let largest_sum = kadane(&list);
     println!("Largest sum using kadane: {}.", largest_sum);
 }
 
+// Ask if the user would like to continue after each operation
 fn continue_program() {
     let mut read_continue = String::new();
     println!("Would you like to continue? (y/N)");
@@ -129,6 +133,7 @@ fn continue_program() {
     };
 }
 
+// Function to brute force the maximum value
 fn brute_force(array: &Vec<i32>) -> i32 {
     let number_of_elements = array.len();
     let mut max_sum = array[0];
@@ -163,3 +168,4 @@ fn kadane(nums: &Vec<i32>) -> i32 {
     }
     return current_max;
 }
+
