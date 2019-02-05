@@ -28,8 +28,8 @@ fn main_screen() {
 }
 
 fn benchmark_functions() {
-    println!("Enter 0 to enter a custom array.\nEnter any number to test an array of that length, or press return for defaults.");
-    println!("Defaults are [1, 5, 10, 100, 250, 500, 1000, 2500, 5000]");
+    println!("Enter 0 to enter a custom array.\nEnter any number to test a random array of that length, or press return for defaults.");
+    println!("Defaults are [1, 5, 10, 100, 250, 500, 1000] for 100 trials each. Default takes about <1 min depending on the system.");
     let mut benchmark_count = String::new();
     io::stdin()
         .read_line(&mut benchmark_count)
@@ -39,8 +39,9 @@ fn benchmark_functions() {
     // If the input was 0, then allow the user to input their own array.
     // if the length of the string is zero, then it was just a newline character.
     // else, push that to our vector.
-    let trials = 1;
-    let default_benchmarks = vec![1, 5, 10, 100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000, 100000000];
+    // CHANGE TRIALS AND BENCHMARK Ns HERE
+    let trials = 100;
+    let default_benchmarks = vec![1, 5, 10, 100, 250, 500, 1000/*, 2500, 5000*/];
     let mut benchmarks: Vec<i32> = Vec::new();
     let mut user_array: Vec<i32> = Vec::new();
     if benchmark_count == "0" {
@@ -88,18 +89,16 @@ fn benchmark_functions() {
             // Using a high definition clock SystemTime, please read more into the
             // docs to learn more about it
             let sys_time = SystemTime::now();
-            let forced_sum = 0;// brute_force(&list);
+            let forced_sum = brute_force(&list);
             forced_benchmarks[i].push(sys_time.elapsed().unwrap());
             let sys_time = SystemTime::now();
             let kadane_sum = kadane(&list);
-            let kadane_bench = sys_time.elapsed().unwrap();
-            kadane_benchmarks[i].push(kadane_bench);
-            println!("Kadane pushed: {}",
-                     kadane_bench.as_secs() as f64
-                         + kadane_bench.subsec_nanos() as f64 * 1e-9);
-            println!("{}:  \t{}\t{}",
-                     bench, forced_sum, kadane_sum);
-            println!("Running Trial: #{} for n: {}", trial+1, bench);
+            kadane_benchmarks[i].push(sys_time.elapsed().unwrap());
+            // Holy crap, I have to use the output of the kadane algorithm
+            // otherwise Rust will literally optimize out kadane running in the
+            // first place. Rust pls, don't do this to me.
+            println!("Trial: #{}, Largest sum for n:{}  \tForced: {}\tKadane: {}",
+                     trial+1, bench, forced_sum, kadane_sum);
         }
     }
     println!("\nAverage time both algorithms (in secs) after {} trials:", trials);
