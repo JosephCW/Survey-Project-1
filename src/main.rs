@@ -39,7 +39,8 @@ fn benchmark_functions() {
     // If the input was 0, then allow the user to input their own array.
     // if the length of the string is zero, then it was just a newline character.
     // else, push that to our vector.
-    let default_benchmarks = vec![1, 5, 10, 100, 250, 500, 1000, 2500, 5000];
+    let trials = 1;
+    let default_benchmarks = vec![1, 5, 10, 100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000, 100000000];
     let mut benchmarks: Vec<i32> = Vec::new();
     let mut user_array: Vec<i32> = Vec::new();
     if benchmark_count == "0" {
@@ -62,41 +63,57 @@ fn benchmark_functions() {
         println!("Size of array to benchmark against: {}", benchmark_count);
     }
 
-    println!("\nLargest subarray sum found by both algorithms:");
-    println!("n\tForced\tKadane");
-    let mut forced_benchmarks: Vec<std::time::Duration> = Vec::new();
-    let mut kadane_benchmarks: Vec<std::time::Duration> = Vec::new();
+    // println!("\nLargest subarray sum found by both algorithms:");
+    // println!("n\tForced\tKadane");
+    // Each 2d array holds all trial counts for all benchmark lengths
+    let mut forced_benchmarks: Vec<Vec<std::time::Duration>>
+        = vec![Vec::new(); benchmarks.len()];
+    let mut kadane_benchmarks: Vec<Vec<std::time::Duration>>
+        = vec![Vec::new(); benchmarks.len()];
     let mut random = rand::thread_rng();
     // Run all of the benchmarks
-    for bench in &benchmarks {
-        let mut list: Vec<i32> = Vec::new();
-        // If the user did not provide an array
-        if calculate_length(&user_array) == 0 {
-            for _ in 0..*bench {
-                list.push(random.gen_range(-5, 6));
+    for (i, bench) in benchmarks.iter().enumerate() {
+        for trial in 0..trials {
+            let mut list: Vec<i32> = Vec::new();
+            // If the user did not provide an array
+            if calculate_length(&user_array) == 0 {
+                for _ in 0..*bench {
+                    list.push(random.gen_range(-5, 6));
+                }
+            } else {
+                // If the user did provide an array add that to our list.
+                list.extend(&user_array);
             }
-        } else {
-            // If the user did provide an array add that to our list.
-            list.extend(&user_array);
-        }
 
-        let sys_time = SystemTime::now();
-        let forced_sum = brute_force(&list);
-        forced_benchmarks.push(sys_time.elapsed().unwrap());
-        let sys_time = SystemTime::now();
-        let kadane_sum = kadane(&list);
-        kadane_benchmarks.push(sys_time.elapsed().unwrap());
-        println!("{}:  \t{}\t{}",
-                 bench, forced_sum, kadane_sum);
+            // Using a high definition clock SystemTime, please read more into the
+            // docs to learn more about it
+            let sys_time = SystemTime::now();
+            let forced_sum = 0;// brute_force(&list);
+            forced_benchmarks[i].push(sys_time.elapsed().unwrap());
+            let sys_time = SystemTime::now();
+            let kadane_sum = kadane(&list);
+            let kadane_bench = sys_time.elapsed().unwrap();
+            kadane_benchmarks[i].push(kadane_bench);
+            println!("Kadane pushed: {}",
+                     kadane_bench.as_secs() as f64
+                         + kadane_bench.subsec_nanos() as f64 * 1e-9);
+            println!("{}:  \t{}\t{}",
+                     bench, forced_sum, kadane_sum);
+            println!("Running Trial: #{} for n: {}", trial+1, bench);
+        }
     }
-    println!("\nTiming both algorithms (in secs):");
+    println!("\nAverage time both algorithms (in secs) after {} trials:", trials);
     println!("n\tForced\t\tKadane");
     for (i, bench) in benchmarks.iter().enumerate() {
+        let forced_sum: f64 = forced_benchmarks[i].iter().map(
+            |&x| x.as_secs() as f64 + x.subsec_nanos() as f64 * 1e-9
+        ).sum();
+        let kadane_sum: f64 = kadane_benchmarks[i].iter().map(
+            |&x| x.as_secs() as f64 + x.subsec_nanos() as f64 * 1e-9
+        ).sum();
         println!("{}:\t{:.9}\t{:.9}", bench,
-                 forced_benchmarks[i].as_secs() as f64
-                 + forced_benchmarks[i].subsec_nanos() as f64 * 1e-9,
-                 kadane_benchmarks[i].as_secs() as f64
-                 + kadane_benchmarks[i].subsec_nanos() as f64 * 1e-9);
+                 forced_sum / trials as f64,
+                 kadane_sum / trials as f64);
     }
 }
 
@@ -168,4 +185,3 @@ fn kadane(nums: &Vec<i32>) -> i32 {
     }
     return current_max;
 }
-
