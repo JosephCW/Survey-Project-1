@@ -1,6 +1,6 @@
-use std::io;
-use std::cmp;
 use rand::Rng;
+use std::cmp;
+use std::io;
 use std::time::SystemTime;
 
 fn main() {
@@ -22,7 +22,7 @@ fn main_screen() {
         "0" => hard_coded_brute_force(),
         "1" => hard_coded_kadane(),
         "2" => benchmark_functions(),
-        _  => return,
+        _ => return,
     };
     continue_program();
 }
@@ -41,7 +41,7 @@ fn benchmark_functions() {
     // else, push that to our vector.
     // CHANGE TRIALS AND BENCHMARK Ns HERE
     let trials = 100;
-    let default_benchmarks = vec![1, 5, 10, 100, 250, 500, 1000/*, 2500, 5000*/];
+    let default_benchmarks = vec![1, 5, 10, 100, 250, 500, 1000 /*, 2500, 5000*/];
     let mut benchmarks: Vec<i32> = Vec::new();
     let mut user_array: Vec<i32> = Vec::new();
     if benchmark_count == "0" {
@@ -66,6 +66,7 @@ fn benchmark_functions() {
 
     // println!("\nLargest subarray sum found by both algorithms:");
     // println!("n\tForced\tKadane");
+
     // Each 2d array holds all trial counts for all benchmark lengths
     let mut forced_benchmarks: Vec<Vec<std::time::Duration>>
         = vec![Vec::new(); benchmarks.len()];
@@ -74,6 +75,8 @@ fn benchmark_functions() {
     let mut random = rand::thread_rng();
     // Run all of the benchmarks
     for (i, bench) in benchmarks.iter().enumerate() {
+        // For each trial for each benchmark, this loop will generate a new
+        // randomized list from -5 to 5 in order to test against both algorithms.
         for trial in 0..trials {
             let mut list: Vec<i32> = Vec::new();
             // If the user did not provide an array
@@ -97,22 +100,40 @@ fn benchmark_functions() {
             // Holy crap, I have to use the output of the kadane algorithm
             // otherwise Rust will literally optimize out kadane running in the
             // first place. Rust pls, don't do this to me.
-            println!("Trial: #{}, Largest sum for n:{}  \tForced: {}\tKadane: {}",
-                     trial+1, bench, forced_sum, kadane_sum);
+            println!(
+                "Trial: #{}, Largest sum for n:{}  \tForced: {}\tKadane: {}",
+                trial + 1,
+                bench,
+                forced_sum,
+                kadane_sum
+            );
         }
     }
-    println!("\nAverage time both algorithms (in secs) after {} trials:", trials);
+    println!(
+        "\nAverage time both algorithms (in secs) after {} trials:",
+        trials
+    );
     println!("n\tForced\t\tKadane");
+
+    // For each benchmark, a sum (after conversion from std::time::Duration to sec)
+    // will be calculated from each vectors of benchmark informations for the
+    // associated algorithm. This will calculate the time precission up to
+    // nanoseconds.
     for (i, bench) in benchmarks.iter().enumerate() {
-        let forced_sum: f64 = forced_benchmarks[i].iter().map(
-            |&x| x.as_secs() as f64 + x.subsec_nanos() as f64 * 1e-9
-        ).sum();
-        let kadane_sum: f64 = kadane_benchmarks[i].iter().map(
-            |&x| x.as_secs() as f64 + x.subsec_nanos() as f64 * 1e-9
-        ).sum();
-        println!("{}:\t{:.9}\t{:.9}", bench,
-                 forced_sum / trials as f64,
-                 kadane_sum / trials as f64);
+        let forced_sum: f64 = forced_benchmarks[i]
+            .iter()
+            .map(|&x| x.as_secs() as f64 + x.subsec_nanos() as f64 * 1e-9)
+            .sum();
+        let kadane_sum: f64 = kadane_benchmarks[i]
+            .iter()
+            .map(|&x| x.as_secs() as f64 + x.subsec_nanos() as f64 * 1e-9)
+            .sum();
+        println!(
+            "{}:\t{:.9}\t{:.9}",
+            bench,
+            forced_sum / trials as f64,
+            kadane_sum / trials as f64
+        );
     }
 }
 
@@ -145,7 +166,7 @@ fn continue_program() {
 
     match read_continue.trim() {
         "y" | "Y" => main_screen(),
-        _ => return
+        _ => return,
     };
 }
 
