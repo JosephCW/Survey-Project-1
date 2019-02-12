@@ -2,3 +2,6 @@
 **/*.rs.bk
 paper/*.log
 paper/*.aux
+paper/*.fls
+paper/*.gz
+paper/*.fdb_latexmk
