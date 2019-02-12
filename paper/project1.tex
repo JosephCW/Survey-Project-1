@@ -49,16 +49,16 @@
 	\subsection{Kadane Algorithm}
 
   \begin{algorithm}
-		\caption{Merge Sort}\label{mergesort}
+		\caption{Kadane Algorithm}\label{kadane}
 	\begin{algorithmic}
-	\Function{MergeSort}{L}
-	\If{$len(L) <= 1$}
-	\Return {L}
-	\EndIf
-	\State $A\gets$\Call{MergeSort}{first half of L}
-	\State $B\gets$\Call{MergeSort}{second half of L}\\
-	\Return {\Call{Merge}{A,B}}
-	\EndFunction
+	  \Function{Kadane}{L}
+    \State $maxEnding \gets A[0]$
+    \State $maxIterator \gets A[0]$
+
+	  \State $A\gets$\Call{MergeSort}{first half of L}
+	  \State $B\gets$\Call{MergeSort}{second half of L}\\
+	  \Return {\Call{Merge}{A,B}}
+	  \EndFunction
 	\end{algorithmic}
 	\end{algorithm}
 
