@@ -5,3 +5,4 @@ paper/*.aux
 paper/*.fls
 paper/*.gz
 paper/*.fdb_latexmk
+paper/*.pdf
