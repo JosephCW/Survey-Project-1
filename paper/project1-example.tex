@@ -1,0 +1,101 @@
+\documentclass[10pt, letterpaper]{article}
+\usepackage[cm]{fullpage}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+
+\algrenewcommand\Return{\State \algorithmicreturn{} }%
+
+\title{Sorting Algorithms: Insertion and Merge Sort}
+\author{Nathan Eloe}
+
+\begin{document}
+	\maketitle
+	\begin{abstract}
+		Sorting data is a frequently encountered mechanism in solving problems.  Many complex algorithms can use a sorting pass as a preprocessing step to enable the algorithm to be more efficient.  As such, the problem of sorting data has been analyzed and multiple approaches have been designed that have different benefits and drawbacks.  This paper is an exploration of the performance complexity of two common sorting algorithms (Insertion Sort and Merge Sort) and a discussion of scenarios in which one sorting algorithm may be preferable to another.
+	\end{abstract}
+	\section{Background and Related Work}
+	Sorting data is a well analyzed problem;  several approaches exist that exploit the structure of the data or use a divide and conquer method to efficiently sort a collection of data.  Two such algorithms are the Insertion Sort and the Merge Sort.  Insertion Sort is an algorithm that sorts an array of data by inserting data into the correct place in the array one element at the time.  Merge Sort uses a divide and conquer approach to efficiently sort data.  Pseudocode and analysis of these algorithms follow.
+	
+	\subsection{Insertion Sort}
+	Insertion sort effectively sorts an array of data one element at a time by inserting it into the correct place in the array.  It assumes that a list with one element is already sorted, then sorts the array of two elements, then three, and so on.  Pseudocode for the insertion sort is given in Algorithm~\ref{inssort}. 
+	\begin{algorithm}
+	\begin{algorithmic}
+		\caption{Insertion Sort}\label{inssort}
+	\Function{InsertionSort}{L}
+	\For{i 1..len(L)}
+	\State $j\gets i$
+	\While{$j > 0$ and $L\left[j\right]<L\left[j-1\right]$}
+	\Call{swap}{L[j], L[j-1]}
+	\State $j\gets j-1$
+	\EndWhile
+	\EndFor
+	\EndFunction
+	\end{algorithmic}
+	\end{algorithm}
+	
+	The inner loop of this algorithm performs one comparison and runs at most $i$ times every iteration.  The outer for loop runs $n=len(L)$ times.  As such, in the worst case, this algorithm performs
+	\[
+	\sum_{i=1}^{n}\sum_{j=0}^{i}1=\sum_{i=1}^{n}i=\frac{n^2+n}{2}
+	\]
+	operations. The runtime complexity of this algorithm is $\Theta(n^2)$.  This algorithm does have an interesting property:  when the data is almost sorted, the inner loop runs very few times, and as such runs closer to $O(n)$.  Additionally, this sort is \emph{in place} and \emph{stable}
+	\subsection{Merge Sort}
+	Merge sort uses a divide and conquer approach to reduce the runtime complexity.  Pseudocode for the Merge Sort is given in Algorithm~\ref{mergesort}
+	\begin{algorithm}
+		\caption{Merge Sort}\label{mergesort}
+	\begin{algorithmic}
+	\Function{MergeSort}{L}
+	\If{$len(L) <= 1$} 
+	\Return {L}
+	\EndIf
+	\State $A\gets$\Call{MergeSort}{first half of L}
+	\State $B\gets$\Call{MergeSort}{second half of L}\\
+	\Return {\Call{Merge}{A,B}}
+	\EndFunction
+	\end{algorithmic}
+	\end{algorithm}
+	
+	The merge operation is a $\Theta(n)$ operation in the number of comparisons.  Thus, the number of comparisons Merge Sort performs to sort a list of length $n$ is
+	\[
+	C(n) = 2C(\frac{n}{2}) + \Theta(n).
+	\]
+	Applying the Master Theorem gives an overall runtime complexity of $\Theta(nlg(n))$.
+	\section{Experimental Setup}
+	Python was the language chosen to implement and time these two sorts due to its fast development time and ease of performing timing operations.  In all cases, reported time is the average of 100 executions of the algorithm.  All timing was done on a Core i5 processor running at 2.5GHz on a system with 16 GB RAM.  
+	
+	Two scenarios were timed for this experiment:  completely randomized data, and mostly sorted data.  This was done to test Insertion Sort's capabilities at handling data that is already mostly ordered.  The randomly generated data was created by building a list of $n$ random integers from 0 to 100 (inclusive).  The partially sorted data was built by swapping adjacent pairs of sorted numbers with probability 0.5; in implementation, no data is swapped more than once.  The implementation is included with this paper.
+	\section{Results}
+	Figure~\ref{rando} shows average execution times for Insertion and Merge Sort for increasing $n$ and randomly shuffled data.  Figure~\ref{partial} shows average execution times for Insertion and Merge Sort for increasing $n$ and partially ordered data.
+	\begin{figure}[htpb!]
+		\centering
+		\includegraphics[width=0.4\textwidth]{rando_timings}
+		\caption{\label{rando}Insertion and Merge Sort: Randomly Shuffled Data}
+	\end{figure}
+	\begin{figure}[htpb!]
+		\centering
+		\includegraphics[width=0.4\textwidth]{partial_sorted_timings}
+		\caption{\label{partial}Insertion and Merge Sort: Partially Sorted Data}
+		\end{figure}
+\begin{table}
+	\centering
+		\begin{tabular}{c|cc}
+\rowcolors{2}{gray!25}{white}
+& Insertion Sort & Merge Sort\\
+\hline
+5 & 4.828e-6&1.516e-5 \\
+10 &1.693e-5 &3.518e-5 \\
+50 & 3.647e-4&2.334e-4
+	\end{tabular}
+	\caption{\label{smalln}Insertion and Merge Sort Times for $n\leq50$}
+\end{table}
+
+	\section{Conclusions}
+	The results presented in Figure~\ref{rando} show that, in the average case for large $n$, Merge Sort outperforms Insertion Sort by a substantial amount.  This is to be expected, as Insertion Sort is $\Theta(n^2)$ and Merge Sort is $\Theta(nlgn)$.  Of interest though, is the run times for these sorts for small $n$ (Table~\ref{smalln});  for the list sizes tested, Insertion Sort performed better than Merge sort for both $n=5$ and $n=10$.  Even at $n=50$, the run times are very similar.
+	
+	However, when dealing with mostly sorted data Insertion Sort is significantly faster than Merge Sort.  In Figure~\ref{partial}, the run times for Merge Sort in both random data and partially ordered data are included to illustrate that while Insertion Sort's performance is drastically improved by the partially ordered data, Merge Sort remains much more consistent.  This can be seen as one of Merge Sort's benefits: the best and worst case for the sorts have similar runtimes.  Sorts like Insertion Sort can exhibit very different behavior based on how unsorted the data is.
+	
+	It is easier to examine Merge Sort's behavior in Figure~\ref{partial}.  The graph does not appear to be linear (as one would expect from a $\Theta(n)$ algorithm), but does not seem to exhibit parabolic behavior ($\Theta(n^2)$).  This suggests that the plot of execution time is similar to $nlgn$, as expected by the algorithmic analysis.  Figure~\ref{rando} shows that Insertion Sort's runtimes exhibit parabolic behavior, which is expected.  In Figure~\ref{partial}, however, Insertion Sort follows a much more linear execution time growth.  As, in the best case (completely sorted data), Insertion Sort will perform $n-1$ comparisons, it is logical that Insertion Sort's complexity on mostly ordered data would be linear.
+	
+	When choosing a sorting algorithm for a particular application, it is important to understand the underlying structure and amount of the data.  If the data set is small, or the data set comes into the system partially ordered, it may be better to use the Insertion Sort because of its increased performance in these scenarios, as well as other benefits including ease of implementation, the fact that the sort happens in place (and requires no additional memory), and that it is stable, which may be important in some scenarios.  
+\end{document}

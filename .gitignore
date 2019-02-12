@@ -1,2 +1,4 @@
 /target
 **/*.rs.bk
+paper/*.log
+paper/*.aux

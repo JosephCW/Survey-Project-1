@@ -1,0 +1,76 @@
+\documentclass[10pt, letterpaper]{article}
+\usepackage[cm]{fullpage}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+
+\algrenewcommand\Return{\State \algorithmicreturn{} }%
+
+\title{Largest Subarray}
+\author{Daiwei Chen}
+\author{Joseph Watts}
+
+\begin{document}
+	\maketitle
+	\begin{abstract}
+
+	\end{abstract}
+	\section{Background and Related Work}
+
+	\subsection{Brute Force Algorithm}
+
+	\begin{algorithm}
+	\begin{algorithmic}
+		\caption{Insertion Sort}\label{inssort}
+	\Function{InsertionSort}{L}
+	\For{i 1..len(L)}
+	\State $j\gets i$
+	\While{$j > 0$ and $L\left[j\right]<L\left[j-1\right]$}
+	\Call{swap}{L[j], L[j-1]}
+	\State $j\gets j-1$
+	\EndWhile
+	\EndFor
+	\EndFunction
+	\end{algorithmic}
+	\end{algorithm}
+
+  Explain the function here:
+
+	\[
+	\textnormal{Summation Equation goes here}
+	\]
+
+  Explain runtime complexity:
+
+	\subsection{Kadane Algorithm}
+
+  \begin{algorithm}
+		\caption{Merge Sort}\label{mergesort}
+	\begin{algorithmic}
+	\Function{MergeSort}{L}
+	\If{$len(L) <= 1$}
+	\Return {L}
+	\EndIf
+	\State $A\gets$\Call{MergeSort}{first half of L}
+	\State $B\gets$\Call{MergeSort}{second half of L}\\
+	\Return {\Call{Merge}{A,B}}
+	\EndFunction
+	\end{algorithmic}
+	\end{algorithm}
+
+  Explain Kadane Here
+  \[
+	\textnormal{Gimme big O calculation pls}
+	\]
+	Explain big O and big $\Theta$ here
+	\section{Experimental Setup}
+	RUST HAS BIG PP OWO
+
+	This is how we timed our setup
+	\section{Results}
+	Include our graph visualization of our data here. Brute Force and Kadane Timing
+
+	\section{Conclusions}
+
+\end{document}
