@@ -22,14 +22,20 @@
 
 	\begin{algorithm}
 	\begin{algorithmic}
-		\caption{Insertion Sort}\label{inssort}
-	\Function{InsertionSort}{L}
-	\For{i 1..len(L)}
-	\State $j\gets i$
-	\While{$j > 0$ and $L\left[j\right]<L\left[j-1\right]$}
-	\Call{swap}{L[j], L[j-1]}
-	\State $j\gets j-1$
-	\EndWhile
+		\caption{Brute Force}\label{bruteforce}
+	\Function{bruteForce}{A}
+	\State $n\gets len(A)$
+	\State $maxsum\gets A[0]$
+	\For{$i$ in 0..$n$-1}
+	\For{$j$ in $i$..$n$-1}
+	\State $total\gets 0$
+	\For{$k$ in $i$..$j$}
+	\State $total\gets total + A[k]$
+	\EndFor
+	\If{$maxsum < total$}
+	\State $maxsum\gets total$
+	\EndIf
+	\EndFor
 	\EndFor
 	\EndFunction
 	\end{algorithmic}
