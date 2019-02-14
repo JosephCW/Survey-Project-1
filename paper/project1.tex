@@ -3,16 +3,14 @@
 \usepackage{algpseudocode}
 \usepackage{algorithm}
 \usepackage{graphicx}
+\usepackage[section]{placeins}
 \usepackage[table]{xcolor}
 
 \algrenewcommand\Return{\State \algorithmicreturn{} }%
 
+
 \title{Largest Subarray}
-\author{
-  Chen, Daiwei \\
-  \and
-  Watts, Joseph
-}
+\author{Daiwei Chen \and Joseph Watts}
 
 \begin{document}
 	\maketitle
@@ -44,14 +42,19 @@
 	\end{algorithmic}
 	\end{algorithm}
 
-  Explain the function here:
+	This brute force algorithm will solve the problem of finding the largest sum of a subset of an array.
+	The algorithm works by keeping track of two main index values.
+	The first index is for the outer loop which will run between 0 and the number of elements in the array, while the second keeps track of the ending index and runs between the starting index and the number of elements in the array.
+	This will allow for the capture of every possible subset of the array.
+	The second index will contain a value between the first index value used by the outer loop and the number of elements in the array.
+	A value to keep track of the sum of our array is made and then the array is summed between the two indexes.
+	If our summed value is higher than our highest previously summed value, then update it to the new value.
+	At this point the second index will be incremented, causing the sum between the indexes to take place again.
 
-	\[
-	\textnormal{Summation Equation goes here}
-	\]
-
-  Explain runtime complexity:
-
+	% Summation Equation
+	\[\sum_{i = 0}^{n}\sum_{j = i}^{n}\sum_{k = i}^{j}1\]
+	% Explanation of runtime complexity
+	The runtime complexity is bad, mkay?
 	\subsection{Kadane Algorithm}
 
   \begin{algorithm}
@@ -124,5 +127,5 @@
 	\end{center}
 \end{figure}
 	\section{Conclusions}
-
+	This is the part where we talk about how great we are :)
 \end{document}
