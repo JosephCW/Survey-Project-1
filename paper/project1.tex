@@ -51,10 +51,18 @@
 	If our summed value is higher than our highest previously summed value, then update it to the new value.
 	At this point the second index will be incremented, causing the sum between the indexes to take place again.
 
-	% Summation Equation
-	\[\sum_{i = 0}^{n}\sum_{j = i}^{n}\sum_{k = i}^{j}1\]
+
 	% Explanation of runtime complexity
-	The runtime complexity is bad, mkay?
+	Due to these three nested summations, the brute force algorithm runs in $O(n^3)$ time.
+	The inner index loops all the way through the array, which means there will be $n$ iterations.
+	The second loop changes the ending index inside of the previous loop from the starting index until the end of the array leading to an $O(n^2)$ algorithm.
+	The range between the two indexes is then looped through again, causing the algorithm to become $O(n^3)$.
+	It should be noted, however, that there is a slightly different version of this brute force algorithm that runs in $O(n^2)$ time by doing the sum as part of the second loop.
+	
+	This algorithm can be written as a summation where $i$ is the starting index, $j$ is the ending index, $k$ is the index for the loop doing the summing between $i$ and $j$, and $n$ is the number of elements in the array.
+	% Summation Equation
+	\[\sum_{i = 0}^{n-1}\sum_{j = i}^{n-1}\sum_{k = i}^{j}1\]
+	
 	\subsection{Kadane Algorithm}
 
   \begin{algorithm}
