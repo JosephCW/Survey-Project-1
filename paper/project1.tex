@@ -18,7 +18,7 @@
 \begin{document}
 	\maketitle
 	\begin{abstract}
-		Calculating the maximum sum of values within a contiguous subset of an array is a problem mostly found in the field of image processing. 
+		Calculating the maximum sum of values within a contiguous subset of an array is a problem mostly found in the field of image processing.
 		This paper explores the impact of using two different approaches to solve this problem.One approach is using a brute force algorithm, and the other is using a more optimized approach known as Kadane's algorithm.
 		Due to the different complexity of these two algorithms used to solve it,
 		we will see the performance impact over a range of different sized arrays.
@@ -112,10 +112,10 @@
   = 2 * n \\
   = \Theta(n)
 		\]
-	This algorithm has a big $\Theta$ of n because it only goes through each element of the array once and only once.
+	This algorithm is $\Theta(n)$ because it only goes through each element of the array once and only once.
 	\section{Experimental Setup}
 	For the experimental setup, we have allowed our users to either input an array to test both algorithms against, or run our own tests.
-  Our own tests included of multiple n values that will be timed. For each n value, we randomly generate n numbers of numbers between -5 and 5 inclusive and place them into a list. We then will time each run of the brute force algorithm and kadane algorithm to go through that list of random numbers. After about 100 trials for each n, we will collecte all the timing data and proceed to find the averge run time for both algorithms for that n.
+  Our own tests included of multiple n values that will be timed. For each n value, we randomly generate n numbers of numbers between -5 and 5 inclusive and place them into a list. We then will time each run of the Brute Force algorithm and Kadane algorithm to go through that list of random numbers. After about 100 trials for each n, we will collecte all the timing data and proceed to find the averge run time for both algorithms for that n.
   Timing data is collected by using a high definition clock within Rust. These timings were done on an Intel Xenon X5570 processor clocked at 2.9GHz. The host machine was running a 64bit version of Fedora 29 Server Edition.
 	\section{Results}
 	Include our graph visualization of our data here. Brute Force and Kadane Timing
