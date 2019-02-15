@@ -13,7 +13,5 @@ plt.axis([0, 2750, 0, 4])
 plt.ylabel('Average Time in Seconds') 
 plt.xlabel('Size of Array')
 plt.title('Time to Calculate Maximum Sum in Array of Size N') 
-plt.show()
-
-
+#plt.show()
 plt.savefig('avgTimeGraph.png')
