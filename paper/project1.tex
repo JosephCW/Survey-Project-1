@@ -20,6 +20,8 @@
 
 	\end{abstract}
 	\section{Background and Related Work}
+  Finding the largest subarray is a problem where we have to find an subarray within a given list $L$. And make sure that the found subarray has a sum higher than any other possible subarrays within $L$.
+  This algorithm is important and has some real world uses. One such as computer vision, to find the brightest area within an image, it's basically a ``Maximum Subarray'' problem on the lumens within the list of pixels.
 
 	\subsection{Brute Force Algorithm}
 
@@ -52,25 +54,28 @@
 		\caption{Kadane Algorithm}\label{kadane}
 	\begin{algorithmic}
 	  \Function{Kadane}{L}
-    \State $maxEnding \gets A[0]$
-    \State $maxIterator \gets A[0]$
-
-	  \State $A\gets$\Call{MergeSort}{first half of L}
-	  \State $B\gets$\Call{MergeSort}{second half of L}\\
-	  \Return {\Call{Merge}{A,B}}
+    \State $maxEnding \gets L[0]$
+    \State $maxAlways \gets L[0]$
+    \For{i 1..len(L)}
+    \State $maxEnding \gets \Call{max}{L[i], maxEnding + L[i]}$
+    \State $maxAlways \gets \Call{max}{maxAlways, maxEnding}$
+    \EndFor
+	  \Return{$maxAlways$}
 	  \EndFunction
 	\end{algorithmic}
 	\end{algorithm}
+  Kadane is a very good example of a simple but effective way to write a better algorithm using dynamic programming. It focuses on remembering two very important variables $maxEnding$ and $maxAlways$. $maxAlways$ will always remember the largest sum you've seen up till now out of all the subarrays. But $maxEnding$ will keep track of the largest subset just within that iteration of i. Because it remembers what sort of sums you've checked before, you do not have to check other possible subarrays again. Thus getting rid of the 2 for loops within the brute force algorithm.
 
-  Explain Kadane Here
   \[
-	\textnormal{Gimme big O calculation pls}
-	\]
-	Explain big O and big $\Theta$ here
+  \sum_1^n2 \\
+  = 2 * n \\
+  = \Theta(n)
+		\]
+	This algorithm has a big $\Theta$ of n because it only goes through each element of the array once and only once.
 	\section{Experimental Setup}
-	RUST HAS BIG PP OWO
-
-	This is how we timed our setup
+	For the experimental setup, we have allowed our users to either input an array to test both algorithms against, or run our own tests.
+  Our own tests included of multiple n values that will be timed. For each n value, we randomly generate n numbers of numbers between -5 and 5 inclusive and place them into a list. We then will time each run of the brute force algorithm and kadane algorithm to go through that list of random numbers. After about 100 trials for each n, we will collecte all the timing data and proceed to find the averge run time for both algorithms for that n.
+  Timing data is collected by using a high definition clock within Rust.
 	\section{Results}
 	Include our graph visualization of our data here. Brute Force and Kadane Timing
 
