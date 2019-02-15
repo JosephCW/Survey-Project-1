@@ -15,7 +15,10 @@
 \begin{document}
 	\maketitle
 	\begin{abstract}
-
+		Calculating the maximum sum of values within a contiguous subset of an array is a problem 
+		This paper explores the impact of using two different algorithms to solve the problem of calculating the maximum sum of values within a contiguous subset of an array.
+		Due to the different complexity of these two algorithms used to solve it, 
+		we will see the performance impact over a range of different sized arrays.
 	\end{abstract}
 	\section{Background and Related Work}
 
@@ -42,26 +45,29 @@
 	\end{algorithmic}
 	\end{algorithm}
 
-	This brute force algorithm will solve the problem of finding the largest sum of a subset of an array.
-	The algorithm works by keeping track of two main index values.
-	The first index is for the outer loop which will run between 0 and the number of elements in the array, while the second keeps track of the ending index and runs between the starting index and the number of elements in the array.
-	This will allow for the capture of every possible subset of the array.
-	The second index will contain a value between the first index value used by the outer loop and the number of elements in the array.
-	A value to keep track of the sum of our array is made and then the array is summed between the two indexes.
-	If our summed value is higher than our highest previously summed value, then update it to the new value.
-	At this point the second index will be incremented, causing the sum between the indexes to take place again.
+
+	This brute force algorithm works by keeping track of both a start and ending index, and then calculating a sum for all the indexes between.
+%	This brute force algorithm works by keeping track of two main index values.
+%	The first index is for the outer loop which will run between 0 and the number of elements in the array, while the second keeps track of the ending index and runs between the starting index and the number of elements in the array.
+%	This will allow for the capture of every possible subset of the array.
+%	The second index will contain a value between the first index value used by the outer loop and the number of elements in the array.
+%	A value to keep track of the sum of our array is made and then the array is summed between the two indexes.
+%	If our summed value is higher than our highest previously summed value, then update it to the new value.
+%	At this point the second index will be incremented, causing the sum between the indexes to take place again.
 
 
-	% Explanation of runtime complexity
-	Due to these three nested summations, the brute force algorithm runs in $O(n^3)$ time.
-	The inner index loops all the way through the array, which means there will be $n$ iterations.
-	The second loop changes the ending index inside of the previous loop from the starting index until the end of the array leading to an $O(n^2)$ algorithm.
-	The range between the two indexes is then looped through again, causing the algorithm to become $O(n^3)$.
-	It should be noted, however, that there is a slightly different version of this brute force algorithm that runs in $O(n^2)$ time by doing the sum as part of the second loop.
-	
-	This algorithm can be written as a summation where $i$ is the starting index, $j$ is the ending index, $k$ is the index for the loop doing the summing between $i$ and $j$, and $n$ is the number of elements in the array.
 	% Summation Equation
 	\[\sum_{i = 0}^{n-1}\sum_{j = i}^{n-1}\sum_{k = i}^{j}1\]
+	
+	The starting index goes from the position of the first element until the last element, while the ending index repeats for all values between the starting index and the position of the last element.
+	A third loop then sums all the values found between these two indexes.
+
+	The outer loop keeps track of $i$, the starting index, and runs the entire length of the array, or $n-1$ times.
+	The middle loop keeps track $j$, the ending index, and runs the length between $i$ and the end of the array, $n-1$.
+	There is then another inner value, $k$, which runs between the values of $i$ and $j$. 
+
+	Due to these three nested summations, the brute force algorithm runs in $O(n^3)$ time.
+	It should be noted, however, that there is a slightly different version of this brute force algorithm that runs in $O(n^2)$ time by doing the sum as part of the second loop.
 	
 	\subsection{Kadane Algorithm}
 
@@ -135,7 +141,7 @@
 	\end{center}
 \end{figure}
 	\section{Conclusions}
-	As cleary shown through our graph and time table found in section 3,
+	As cleary shown through our graph and time table found in Section 3,
 	Kadane's algorithm is a much more optimized solution to solve the problem of finding the maximum sum of values within an array. 
 	A brute forcing algorithm can be simplified down to $O(n^2)$, but our algorithm runs in $O(n^3)$.
 	At the same time Kadane's algorithm runs in $O(n)$ time meaning that it will execute much faster.
