@@ -3,21 +3,22 @@
 \usepackage{algpseudocode}
 \usepackage{algorithm}
 \usepackage{graphicx}
+\usepackage[section]{placeins}
 \usepackage[table]{xcolor}
 
 \algrenewcommand\Return{\State \algorithmicreturn{} }%
 
+
 \title{Largest Subarray}
-\author{
-  Chen, Daiwei \\
-  \and
-  Watts, Joseph
-}
+\author{Daiwei Chen \and Joseph Watts}
 
 \begin{document}
 	\maketitle
 	\begin{abstract}
-
+		Calculating the maximum sum of values within a contiguous subset of an array is a problem 
+		This paper explores the impact of using two different algorithms to solve the problem of calculating the maximum sum of values within a contiguous subset of an array.
+		Due to the different complexity of these two algorithms used to solve it, 
+		we will see the performance impact over a range of different sized arrays.
 	\end{abstract}
 	\section{Background and Related Work}
   Finding the largest subarray is a problem where we have to find an subarray within a given list $L$. And make sure that the found subarray has a sum higher than any other possible subarrays within $L$.
@@ -27,27 +28,61 @@
 
 	\begin{algorithm}
 	\begin{algorithmic}
-		\caption{Insertion Sort}\label{inssort}
-	\Function{InsertionSort}{L}
-	\For{i 1..len(L)}
-	\State $j\gets i$
-	\While{$j > 0$ and $L\left[j\right]<L\left[j-1\right]$}
-	\Call{swap}{L[j], L[j-1]}
-	\State $j\gets j-1$
-	\EndWhile
+		\caption{Brute Force}\label{bruteforce}
+	\Function{bruteForce}{A}
+	\State $n\gets len(A)$
+	\State $maxsum\gets A[0]$
+	\For{$i$ in 0..$n$-1}
+	\For{$j$ in $i$..$n$-1}
+	\State $total\gets 0$
+	\For{$k$ in $i$..$j$}
+	\State $total\gets total + A[k]$
+	\EndFor
+	\If{$maxsum < total$}
+	\State $maxsum\gets total$
+	\EndIf
+	\EndFor
 	\EndFor
 	\EndFunction
 	\end{algorithmic}
 	\end{algorithm}
 
-  Explain the function here:
 
-	\[
-	\textnormal{Summation Equation goes here}
-	\]
+	This brute force algorithm works by keeping track of both a start and ending index, and then calculating a sum for all the indexes between.
+%	This brute force algorithm works by keeping track of two main index values.
+%	The first index is for the outer loop which will run between 0 and the number of elements in the array, while the second keeps track of the ending index and runs between the starting index and the number of elements in the array.
+%	This will allow for the capture of every possible subset of the array.
+%	The second index will contain a value between the first index value used by the outer loop and the number of elements in the array.
+%	A value to keep track of the sum of our array is made and then the array is summed between the two indexes.
+%	If our summed value is higher than our highest previously summed value, then update it to the new value.
+%	At this point the second index will be incremented, causing the sum between the indexes to take place again.
 
-  Explain runtime complexity:
 
+	\[\sum_{i=0}^{n}\sum_{j=i}^{n}\sum_{k=i}^{j}1=\sum_{i=0}^{n}\sum_{j=i}^n(\sum_{k=1}^{j}1-\sum_{k=1}^{i-1}1)\]
+
+
+	\[= \sum_{i=0}^{n}(\sum_{j=i}^{n}(j-i+1)-\sum_{j=i}^{i-1}(j-i+1))\]
+
+
+
+	$\sum_{i=0}^{n}(\sum_{j=1}^{n}j-in+n-\sum_{j=1}^{i-1}j-(i^{2}-i)+i-1)=\sum_{i=0}^{n}(\frac{n(n+1)}{2}-in+n-\frac{i(i-1)}{2}-(i^{2}-i)+i-1)=\frac{n(n+1)^{2}}{2}+n^{2}-(n+1)+\sum_{i=0}^{n}(-in-\frac{i(i-1)}{2}-i^{2}+2i)=\frac{n(n+1)^{2}}{2}+n^{2}-(n+1)-\sum_{i=0}^{n}(-in-\frac{i^{2}}{2}+\frac{i}{2}-i^{2}+2i)=\frac{n(n+1)^{2}}{2}+n^{2}-(n+1)-\sum_{i=0}^{n}(-\frac{3i^{2}}{2}+(\frac{1}{2}-n+2)i)=\frac{(n(n+1)^{2}}{2}+n^{2}-(n+1)+\frac{3n(n+1)(2n+1)}{12}+(\frac{5}{2}-n)\frac{n(n+1)}{2}$
+	
+
+
+
+	% Summation Equation
+	\[\sum_{i = 0}^{n-1}\sum_{j = i}^{n-1}\sum_{k = i}^{j}1\]
+	
+	The starting index goes from the position of the first element until the last element, while the ending index repeats for all values between the starting index and the position of the last element.
+	A third loop then sums all the values found between these two indexes.
+
+	The outer loop keeps track of $i$, the starting index, and runs the entire length of the array, or $n$ times.
+	The middle loop keeps track $j$, the ending index, and runs the length between $i$ and the end of the array, $n$.
+	There is then another inner value, $k$, which runs between the values of $i$ and $j$. 
+
+	Due to these three nested summations, the brute force algorithm runs in $O(n^3)$ time.
+	It should be noted, however, that there is a slightly different version of this brute force algorithm that runs in $O(n^2)$ time by doing the sum as part of the second loop.
+	
 	\subsection{Kadane Algorithm}
 
   \begin{algorithm}
@@ -78,7 +113,54 @@
   Timing data is collected by using a high definition clock within Rust.
 	\section{Results}
 	Include our graph visualization of our data here. Brute Force and Kadane Timing
+	
 
+	% Add the graph showing the time taken.
+	\begin{figure}[!htb]
+	\center{
+		\includegraphics[width=0.75\textwidth] {python/avgTimeGraph.png}
+	}
+	\caption{
+		\label{fig:time-graph} Graph of Brute Force vs Kadane Timings
+	}
+	\end{figure}
+
+	% Add a table showing the time taken.
+	
+	\begin{figure}[!htb]
+	\begin{center}
+	\caption{
+		\label{fig:time-table} Table of Brute Force vs Kadane Timings
+	}
+	\medskip
+	\begin{tabular}{ | p{2cm} | l | l | }
+			\hline
+			Size of Array & Brute Force (s) & Kadane (s) \\ \hline
+			1 & 0.000000033 & 0.000000025 \\ \hline
+			5 & 0.000000085 & 0.000000036 \\ \hline
+			10 & 0.000000448 & 0.000000051 \\ \hline
+			50 & 0.000030930 & 0.000000125 \\ \hline
+			100 & 0.000194367 & 0.000000184 \\ \hline
+			150 & 0.000594095 & 0.000000260 \\ \hline
+			200 & 0.001366055 & 0.000000331 \\ \hline
+			250 & 0.002607847 & 0.000000402 \\ \hline
+			300 & 0.004420136 & 0.000000466 \\ \hline
+			350 & 0.006950275 & 0.000000573 \\ \hline
+			400 & 0.010421218 & 0.000000639 \\ \hline
+			450 & 0.014655456 & 0.000000716 \\ \hline
+			500 & 0.020030729 & 0.000000956 \\ \hline
+			750 & 0.067125954 & 0.000001231 \\ \hline
+			1000 & 0.157617270 & 0.000001779 \\ \hline
+			1750 & 0.837418008 & 0.000002682 \\ \hline
+			2500 & 2.432867191 & 0.000003601 \\ \hline
+			3500 & 6.606255604 & 0.000005064 \\ \hline
+		\end{tabular}
+	\end{center}
+\end{figure}
 	\section{Conclusions}
-
-\end{document}
+	As cleary shown through our graph and time table found in Section 3,
+	Kadane's algorithm is a much more optimized solution to solve the problem of finding the maximum sum of values within an array. 
+	A brute forcing algorithm can be simplified down to $O(n^2)$, but our algorithm runs in $O(n^3)$.
+	At the same time Kadane's algorithm runs in $O(n)$ time meaning that it will execute much faster.
+	The amount of time that this algorithm saves is exponential.
+	\end{document}
