@@ -56,14 +56,26 @@
 %	At this point the second index will be incremented, causing the sum between the indexes to take place again.
 
 
+	\[\sum_{i=0}^{n}\sum_{j=i}^{n}\sum_{k=i}^{j}1=\sum_{i=0}^{n}\sum_{j=i}^n(\sum_{k=1}^{j}1-\sum_{k=1}^{i-1}1)\]
+
+
+	\[= \sum_{i=0}^{n}(\sum_{j=i}^{n}(j-i+1)-\sum_{j=i}^{i-1}(j-i+1))\]
+
+
+
+	$\sum_{i=0}^{n}(\sum_{j=1}^{n}j-in+n-\sum_{j=1}^{i-1}j-(i^{2}-i)+i-1)=\sum_{i=0}^{n}(\frac{n(n+1)}{2}-in+n-\frac{i(i-1)}{2}-(i^{2}-i)+i-1)=\frac{n(n+1)^{2}}{2}+n^{2}-(n+1)+\sum_{i=0}^{n}(-in-\frac{i(i-1)}{2}-i^{2}+2i)=\frac{n(n+1)^{2}}{2}+n^{2}-(n+1)-\sum_{i=0}^{n}(-in-\frac{i^{2}}{2}+\frac{i}{2}-i^{2}+2i)=\frac{n(n+1)^{2}}{2}+n^{2}-(n+1)-\sum_{i=0}^{n}(-\frac{3i^{2}}{2}+(\frac{1}{2}-n+2)i)=\frac{(n(n+1)^{2}}{2}+n^{2}-(n+1)+\frac{3n(n+1)(2n+1)}{12}+(\frac{5}{2}-n)\frac{n(n+1)}{2}$
+	
+
+
+
 	% Summation Equation
 	\[\sum_{i = 0}^{n-1}\sum_{j = i}^{n-1}\sum_{k = i}^{j}1\]
 	
 	The starting index goes from the position of the first element until the last element, while the ending index repeats for all values between the starting index and the position of the last element.
 	A third loop then sums all the values found between these two indexes.
 
-	The outer loop keeps track of $i$, the starting index, and runs the entire length of the array, or $n-1$ times.
-	The middle loop keeps track $j$, the ending index, and runs the length between $i$ and the end of the array, $n-1$.
+	The outer loop keeps track of $i$, the starting index, and runs the entire length of the array, or $n$ times.
+	The middle loop keeps track $j$, the ending index, and runs the length between $i$ and the end of the array, $n$.
 	There is then another inner value, $k$, which runs between the values of $i$ and $j$. 
 
 	Due to these three nested summations, the brute force algorithm runs in $O(n^3)$ time.
