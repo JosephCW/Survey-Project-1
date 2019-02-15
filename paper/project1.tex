@@ -52,32 +52,8 @@
 
 
 	This brute force algorithm works by keeping track of both a start and ending index, and then calculating a sum for all the indexes between.
-%	This brute force algorithm works by keeping track of two main index values.
-%	The first index is for the outer loop which will run between 0 and the number of elements in the array, while the second keeps track of the ending index and runs between the starting index and the number of elements in the array.
-%	This will allow for the capture of every possible subset of the array.
-%	The second index will contain a value between the first index value used by the outer loop and the number of elements in the array.
-%	A value to keep track of the sum of our array is made and then the array is summed between the two indexes.
-%	If our summed value is higher than our highest previously summed value, then update it to the new value.
-%	At this point the second index will be incremented, causing the sum between the indexes to take place again.
-
-
 	% Summation Equation
 	\[\sum_{i = 0}^{n-1}\sum_{j = i}^{n-1}\sum_{k = i}^{j}1\]
-  \begin{equation}
-    \begin{split}
-      \sum_{i=1}^{n}&\sum_{j=1}^{i}\sum_{k=j}^{i+j}1 \\
-      &=\sum_{i=1}^{n}\sum_{j=1}^{i}i+1 \\
-      &=\sum_{i=1}^{n}\sum_{j=1}^{i}i+\sum_{j=1}^{i}1 \\
-      &=\sum_{i=1}^{n}\frac{i(i+1)}{2}+i \\
-      &=\sum_{i=1}^{n}(\frac{1}{2}i^2+\frac{i}{2})+\sum_{i=1}^{n}i \\
-      &=\frac{1}{2}\sum_{i=1}^{n}i^2+\frac{1}{2}\sum_{i=1}^{n}i+\sum_{i=1}^{n}i \\
-      &=\frac{1}{2}*\frac{1}{6}n(n+1)(2n+1)+\frac{1}{2}\frac{n(n+1)}{2}+\frac{n(n+1)}{2} \\
-      &=\frac{1}{12}n(2n^2+3n+1)+\frac{(n^2+n)}{4}+\frac{2(n^2+n)}{4} \\
-      &=\frac{1}{6}n^3+\frac{1}{4}n^2+\frac{1}{12}n+\frac{3(n^2+n)}{4} \\
-      &=\frac{1}{6}n^3+\frac{1}{4}n^2+\frac{1}{12}n+\frac{3n^2+3n}{4} \\
-      &=\frac{1}{6}n^3+n^2+\frac{10}{12}n \\
-    \end{split}
-  \end{equation}
 
 	The starting index goes from the position of the first element until the last element, while the ending index repeats for all values between the starting index and the position of the last element.
 	A third loop then sums all the values found between these two indexes.
@@ -120,49 +96,22 @@
 	\section{Results}
 	Include our graph visualization of our data here. Brute Force and Kadane Timing
 
-
-	% Add the graph showing the time taken.
-	\begin{figure}[!htb]
-	\center{
-		\includegraphics[width=0.75\textwidth] {python/avgTimeGraph.png}
-	}
-	\caption{
-		\label{fig:time-graph} Graph of Brute Force vs Kadane Timings
-	}
-	\end{figure}
-
-	% Add a table showing the time taken.
-
-	\begin{figure}[!htb]
-	\begin{center}
-	\caption{
-		\label{fig:time-table} Table of Brute Force vs Kadane Timings
-	}
-	\medskip
-	\begin{tabular}{ | p{2cm} | l | l | }
-			\hline
-			Size of Array & Brute Force (s) & Kadane (s) \\ \hline
-			1 & 0.000000033 & 0.000000025 \\ \hline
-			5 & 0.000000085 & 0.000000036 \\ \hline
-			10 & 0.000000448 & 0.000000051 \\ \hline
-			50 & 0.000030930 & 0.000000125 \\ \hline
-			100 & 0.000194367 & 0.000000184 \\ \hline
-			150 & 0.000594095 & 0.000000260 \\ \hline
-			200 & 0.001366055 & 0.000000331 \\ \hline
-			250 & 0.002607847 & 0.000000402 \\ \hline
-			300 & 0.004420136 & 0.000000466 \\ \hline
-			350 & 0.006950275 & 0.000000573 \\ \hline
-			400 & 0.010421218 & 0.000000639 \\ \hline
-			450 & 0.014655456 & 0.000000716 \\ \hline
-			500 & 0.020030729 & 0.000000956 \\ \hline
-			750 & 0.067125954 & 0.000001231 \\ \hline
-			1000 & 0.157617270 & 0.000001779 \\ \hline
-			1750 & 0.837418008 & 0.000002682 \\ \hline
-			2500 & 2.432867191 & 0.000003601 \\ \hline
-			3500 & 6.606255604 & 0.000005064 \\ \hline
-		\end{tabular}
-	\end{center}
+\begin{figure}[htbp]
+  \begin{minipage}[b]{0.425\linewidth}
+	  \centering
+	  \includegraphics[width=\linewidth]{time-table.png}
+	  \caption{Time to Calculate Maximum Sum in Array of Size $n$}
+	  \label{fig:time-table}
+  \end{minipage}
+  \hspace{.1\linewidth}
+  \begin{minipage}[b]{0.445\linewidth}
+    \centering
+	  \includegraphics[width=\linewidth]{python/avgTimeGraph.png}
+    \caption{Time to Calculate Maximum Sum in Array of Size $n$}
+    \label{fig:time-graph}
+  \end{minipage}
 \end{figure}
+
 	\section{Conclusions}
 	As cleary shown through our graph and time table found in Section 3,
 	Kadane's algorithm is a much more optimized solution to solve the problem of finding the maximum sum of values within an array.
