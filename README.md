@@ -9,7 +9,7 @@ curl https://sh.rustup.rs -sSf | sh
 
 ## Installing Rust on Windows
 
-Download the windows installer [here](https://static.rust-lang.org/dist/rust-1.0.0-beta-x86_64-pc-windows-gnu.msi).
+Download the windows installer found [here](https://www.rust-lang.org/tools/install), and install with default configuration settings.
 
 ## Building and Running the Project
 Once rust (with Cargo) is installed navigate to the base directory of the project.
