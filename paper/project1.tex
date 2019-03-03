@@ -1,12 +1,12 @@
 \documentclass[10pt, letterpaper]{article}
-\usepackage[cm]{fullpage}
+%\usepackage[cm]{fullpage}
 \usepackage{algpseudocode}
 \usepackage{algorithm}
 \usepackage{graphicx}
 \usepackage[section]{placeins}
 \usepackage[table]{xcolor}
 \usepackage{amsmath}
-\usepackage[margin=1in]{geometry}
+\usepackage[margin=0.5in]{geometry}
 
 
 \algrenewcommand\Return{\State \algorithmicreturn{} }%
@@ -97,28 +97,66 @@
   Our own tests included of multiple n values that will be timed. For each n value, we randomly generate n numbers of numbers between -5 and 5 inclusive and place them into a list. We then will time each run of the Brute Force algorithm and Kadane algorithm to go through that list of random numbers. After about 100 trials for each n, we will collecte all the timing data and proceed to find the averge run time for both algorithms for that n.
   Timing data is collected by using a high definition clock within Rust. These timings were done on an Intel Xenon X5570 processor clocked at 2.9GHz. The host machine was running a 64bit version of Fedora 29 Server Edition.
 	\section{Results}
-	Include our graph visualization of our data here. Brute Force and Kadane Timing
 
-\begin{figure}[htbp]
-  \begin{minipage}[b]{0.425\linewidth}
-	  \centering
-	  \includegraphics[width=\linewidth]{time-table.png}
-	  \caption{Time to Calculate Maximum Sum in Array of Size $n$}
-	  \label{fig:time-table}
-  \end{minipage}
-  \hspace{.1\linewidth}
-  \begin{minipage}[b]{0.445\linewidth}
-    \centering
-	  \includegraphics[width=\linewidth]{python/avgTimeGraph.png}
-    \caption{Time to Calculate Maximum Sum in Array of Size $n$}
-    \label{fig:time-graph}
-  \end{minipage}
-\end{figure}
+%\begin{figure}[htbp]
+%  \begin{minipage}[b]{0.425\linewidth}
+%	  \centering
+%	  \includegraphics[width=\linewidth]{time-table.png}
+%	  \caption{Time to Calculate Maximum Sum in Array of Size $n$}
+%	  \label{fig:time-table}
+%  \end{minipage}
+%  \hspace{.1\linewidth}
+%  \begin{minipage}[b]{0.445\linewidth}
+%    \centering
+%	  \includegraphics[width=\linewidth]{python/avgTimeGraph.png}
+%    \caption{Time to Calculate Maximum Sum in Array of Size $n$}
+%    \label{fig:time-graph}
+%  \end{minipage}
+%\end{figure}
+
+
+	\begin{figure}[htbp]
+		\begin{center}
+			\includegraphics[width=0.70\textwidth]{python/avgTimeGraph.png}
+			\caption{Time to Calculate Maximum Sum in Array of Length $n$}
+			\label{fig:time-graph}
+		\end{center}
+	\end{figure}
+
+
+\begin{table}[htb!]
+	\begin{center}
+	\caption{
+		\label{fig:time-table} Table of Brute Force vs Kadane Timings}
+	\medskip
+	\begin{tabular}{ | p{2cm} | l | l | }
+		\hline
+		Size of Array & Brute Force (s) & Kadane (s) \\ \hline
+		1 & 0.000000033 & 0.000000025 \\ \hline
+		5 & 0.000000085 & 0.000000036 \\ \hline
+		10 & 0.000000448 & 0.000000051 \\ \hline
+		50 & 0.000030930 & 0.000000125 \\ \hline
+		100 & 0.000194367 & 0.000000184 \\ \hline
+		150 & 0.000594095 & 0.000000260 \\ \hline
+		200 & 0.001366055 & 0.000000331 \\ \hline
+		250 & 0.002607847 & 0.000000402 \\ \hline
+		300 & 0.004420136 & 0.000000466 \\ \hline
+		350 & 0.006950275 & 0.000000573 \\ \hline
+		400 & 0.010421218 & 0.000000639 \\ \hline
+		450 & 0.014655456 & 0.000000716 \\ \hline
+		500 & 0.020030729 & 0.000000956 \\ \hline
+		750 & 0.067125954 & 0.000001231 \\ \hline
+		1000 & 0.157617270 & 0.000001779 \\ \hline
+		1750 & 0.837418008 & 0.000002682 \\ \hline
+		2500 & 2.432867191 & 0.000003601 \\ \hline
+		3500 & 6.606255604 & 0.000005064 \\ \hline
+	\end{tabular}
+	\end{center}
+\end{table}
 
 	\section{Conclusions}
 	As cleary shown through our graph and time table found in Section 3,
 	Kadane's algorithm is a much more optimized solution to solve the problem of finding the maximum sum of values within an array.
 	A brute forcing algorithm can be simplified down to $O(n^2)$, but our algorithm runs in $O(n^3)$.
 	At the same time Kadane's algorithm runs in $O(n)$ time meaning that it will execute much faster.
-	The amount of time that this algorithm saves is exponential.
-	\end{document}
+\end{document}
