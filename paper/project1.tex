@@ -61,8 +61,7 @@
 	The middle loop keeps track $j$, the ending index, and runs the length between $i$ and the end of the array, $n$.
 	There is then another inner value, $k$, which runs between the values of $i$ and $j$.
 
-	Due to these three nested summations, the brute force algorithm runs in $O(n^3)$ time.
-	It should be noted, however, that there is a slightly different version of this brute force algorithm that runs in $O(n^2)$ time by doing the sum as part of the second loop.
+	Due to these three nested summations, this brute force algorithm will run in $O(n^3)$ time.
 
 	\subsection{Kadane Algorithm}
 
@@ -80,11 +79,12 @@
 	  \EndFunction
 	\end{algorithmic}
 	\end{algorithm}
-  Kadane is a very good example of a simple but effective way to write a better algorithm using dynamic programming.
-  It focuses on remembering two very important variables $maxEnding$ and $maxAlways$.
-  $maxAlways$ will keep track of the current largest sum.
-  $maxEnding$ will keep track of the largest subset but only within the current iteration of $i$. Because it keeps track of what sums have been calculated, it does not have to recalculate these same subarrays.
-  This will remove the necessity of having the two for loops which are present within the brute force algorithm.
+  Kadane is a very good example of a simple but effective way to show the benefits of using dynamic programming.
+  This algorithm works by keeping track of variables, $maxEnding$ and $maxAlways$.
+  $maxAlways$ holds the value of the current largest sum.
+  $maxEnding$ holds the value of the largest subset, but only within the current iteration of $i$. 
+  Because it keeps track of what sums have been calculated, it does not have to recalculate these same subarrays during the next iteration.
+  This will remove two nested for loops which are present within the brute force algorithm.
 
   \[
   \sum_1^n2 \\
@@ -98,22 +98,7 @@
   Timing data is collected by using a high definition clock within Rust. These timings were done on an Intel Xenon X5570 processor clocked at 2.9GHz. The host machine was running a 64bit version of Fedora 29 Server Edition.
 	\section{Results}
 
-%\begin{figure}[htbp]
-%  \begin{minipage}[b]{0.425\linewidth}
-%	  \centering
-%	  \includegraphics[width=\linewidth]{time-table.png}
-%	  \caption{Time to Calculate Maximum Sum in Array of Size $n$}
-%	  \label{fig:time-table}
-%  \end{minipage}
-%  \hspace{.1\linewidth}
-%  \begin{minipage}[b]{0.445\linewidth}
-%    \centering
-%	  \includegraphics[width=\linewidth]{python/avgTimeGraph.png}
-%    \caption{Time to Calculate Maximum Sum in Array of Size $n$}
-%    \label{fig:time-graph}
-%  \end{minipage}
-%\end{figure}
-
+Below are the results found by running both the brute force algorithm and Kadane's algorithm against varying lengths of arrays ranging from a length of 1 to 3500.
 
 	\begin{figure}[htbp]
 		\begin{center}
@@ -157,6 +142,7 @@
 	\section{Conclusions}
 	As cleary shown through our graph and time table found in Section 3,
 	Kadane's algorithm is a much more optimized solution to solve the problem of finding the maximum sum of values within an array.
-	A brute forcing algorithm can be simplified down to $O(n^2)$, but our algorithm runs in $O(n^3)$.
-	At the same time Kadane's algorithm runs in $O(n)$ time meaning that it will execute much faster.
+	The brute force implementation previously described runs in $O(n^3).$
+	At the same time Kadane's algorithm runs in $O(n)$ time due to only looping through the elements of the array one time.
+	Generally it would be much faster to use Kadane's algorithm to solve this problem.
 \end{document}
