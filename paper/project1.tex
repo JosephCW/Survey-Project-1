@@ -6,7 +6,7 @@
 \usepackage[section]{placeins}
 \usepackage[table]{xcolor}
 \usepackage{amsmath}
-\usepackage[margin=0.5in]{geometry}
+\usepackage[margin=0.7in]{geometry}
 
 
 \algrenewcommand\Return{\State \algorithmicreturn{} }%
@@ -21,8 +21,9 @@
 		Calculating the maximum sum of values within a contiguous subset of an array is a problem mostly found in the field of image processing.
 		This paper explores the impact of using two different approaches to solve this problem when one approach is using a brute force algorithm, and the other is using Kadane's algorithm, a well known, more optimized approach.
 		Due to the different complexity of the two algorithms used to solve this problem,
-		there will be a noticeable performance impact when comparing the time taken to run over arrays of different lengths. 
+		there will be a noticeable performance impact when comparing the time taken to run over arrays of different lengths.
 	\end{abstract}
+
 	\section{Background and Related Work}
   Finding the largest subarray is a problem that has to deal with finding a contiguous subarray within a given list, $L$, where the found subarray has a sum higher than any other possible subarrays within $L$.
   This algorithm is important to its real world use cases. One such use as computer vision, to find the brightest area within an image, it's basically a ``Maximum Subarray'' problem on the lumens within the list of pixels.
@@ -79,24 +80,28 @@
 	  \EndFunction
 	\end{algorithmic}
 	\end{algorithm}
+
   Kadane is a very good example of a simple but effective way to show the benefits of using dynamic programming.
   This algorithm works by keeping track of variables, $maxEnding$ and $maxAlways$.
   $maxAlways$ holds the value of the current largest sum.
-  $maxEnding$ holds the value of the largest subset, but only within the current iteration of $i$. 
+  $maxEnding$ holds the value of the largest subset, but only within the current iteration of $i$.
   Because it keeps track of what sums have been calculated, it does not have to recalculate these same subarrays during the next iteration.
   This will remove two nested for loops which are present within the brute force algorithm.
-
+  \\
   \[
   \sum_1^n2 \\
   = 2 * n \\
   = \Theta(n)
 		\]
-	This algorithm is $\Theta(n)$ because it only iterates through each element of the array once.
-	\section{Experimental Setup}
+	  This algorithm is $\Theta(n)$ because it only iterates through each element of the array once.
+    \\
+	  \section{Experimental Setup}
+
 	For the experimental setup, we have allowed our users to either input an array to test both algorithms against, or run our own tests.
   Our own tests included of multiple n values that will be timed. For each n value, we randomly generate n numbers of numbers between -5 and 5 inclusive and place them into a list. We then will time each run of the Brute Force algorithm and Kadane algorithm to go through that list of random numbers. After about 100 trials for each n, we will collecte all the timing data and proceed to find the averge run time for both algorithms for that n.
-  Timing data is collected by using a high definition clock within Rust. These timings were done on an Intel Xenon X5570 processor clocked at 2.9GHz. The host machine was running a 64bit version of Fedora 29 Server Edition.
-	\section{Results}
+  Timing data is collected by using a high definition clock within Rust in nanoseconds, then converted over to seconds for uniformed recording. These timings were done on an Intel Xenon X5570 processor clocked at 2.9GHz. The host machine was running a 64bit version of Fedora 29 Server Edition.
+\\
+  \section{Results}
 
 Below are the results found by running both the brute force algorithm and Kadane's algorithm against varying lengths of arrays ranging from a length of 1 to 3500.
 
